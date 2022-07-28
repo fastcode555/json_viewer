@@ -34,6 +34,9 @@ class JsonShrinkWidget extends StatefulWidget {
 
   final ValueChanged<bool>? shrinkCallBack;
 
+  //缩减提示的widget
+  final Widget? shrinkWidget;
+
   const JsonShrinkWidget({
     this.json,
     this.shrink,
@@ -44,6 +47,7 @@ class JsonShrinkWidget extends StatefulWidget {
     this.needAddSymbol = false,
     this.deepShrink = 1,
     this.shrinkCallBack,
+    this.shrinkWidget,
     Key? key,
   }) : super(key: key);
 
@@ -120,22 +124,23 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   void _addOperationPanel(List<InlineSpan> spans) {
     spans.add(
       WidgetSpan(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              child: const Icon(
-                Icons.remove_circle_outline,
-                color: Colors.grey,
-                size: 16,
-              ),
-              onTap: () {
-                setState(() => _shrink = true);
-                widget.shrinkCallBack?.call(_shrink);
-              },
+        child: widget.shrinkWidget ??
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  child: const Icon(
+                    Icons.remove_circle_outline,
+                    color: Colors.grey,
+                    size: 16,
+                  ),
+                  onTap: () {
+                    setState(() => _shrink = true);
+                    widget.shrinkCallBack?.call(_shrink);
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
       ),
     );
     spans.add(const TextSpan(text: "\n"));
@@ -143,6 +148,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
 
   ///解析出Span的功能
   void _parseSpans(dynamic data) {
+    if (data == null) return;
     //解析List
     if (data is List) {
       _isList = true;
@@ -172,8 +178,14 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
         _spans.add(TextSpan(text: ",", style: widget.style?.symbolStyle));
       }
     } else if (data is String) {
-      dynamic json = jsonDecode(data);
-      _parseSpans(json);
+      if (data.isNotEmpty) {
+        try {
+          dynamic json = jsonDecode(data);
+          _parseSpans(json);
+        } catch (e) {
+          print(e);
+        }
+      }
     }
   }
 
@@ -219,6 +231,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             indentation: indentation,
             style: style,
             jsonKey: key,
+            shrinkWidget: widget.shrinkWidget,
             deepShrink: widget.deepShrink,
             needAddSymbol: i != keys.length - 1,
           ),
@@ -287,6 +300,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             deep: deep + 1,
             indentation: indentation,
             style: style,
+            shrinkWidget: widget.shrinkWidget,
             deepShrink: widget.deepShrink,
             needAddSymbol: i != data.length - 1,
           ),
