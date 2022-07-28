@@ -1,7 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:json_shrink_widget/src/inner_image.dart';
 import 'package:json_shrink_widget/src/json_span_style.dart';
 
 ///更新正则,已匹配转义后的链接
@@ -25,7 +25,7 @@ extension InlineSpanExt on List<InlineSpan> {
         add(
           WidgetSpan(
             child: GestureDetector(
-              child: InnerImage(imageUrl, height: 30, width: 30),
+              child: CachedNetworkImage(imageUrl: imageUrl, width: 30, height: 30, fit: BoxFit.cover),
               onLongPress: () => Clipboard.setData(ClipboardData(text: imageUrl)),
             ),
           ),
