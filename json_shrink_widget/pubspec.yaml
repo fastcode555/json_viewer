@@ -1,8 +1,7 @@
 name: json_shrink_widget
-description: A new Flutter project.
+description: A widget to format json.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
+homepage: https://github.com/fastcode555/Json2Dart_Null_Safety.git
 version: 1.0.0+1
 
 environment:
