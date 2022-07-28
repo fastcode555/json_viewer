@@ -37,9 +37,6 @@ class JsonShrinkWidget extends StatefulWidget {
 
   final ValueChanged<bool>? shrinkCallBack;
 
-  //替换收缩起来的Widget
-  final Widget Function(Map map)? shrinkWidgetBuilder;
-
   const JsonShrinkWidget({
     this.json,
     this.shrink,
@@ -50,7 +47,6 @@ class JsonShrinkWidget extends StatefulWidget {
     this.needAddSymbol = false,
     this.deepShrink = 99,
     this.shrinkCallBack,
-    this.shrinkWidgetBuilder,
     Key? key,
   }) : super(key: key);
 
