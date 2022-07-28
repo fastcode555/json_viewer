@@ -113,7 +113,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
               });
               widget.shrinkCallBack?.call(_shrink);
             }),
-      if (endTextSpan?.text?.trim() != "}") endSpan,
+      if (endTextSpan?.text?.trim() != "}" && endTextSpan?.text?.trim() != "]") endSpan,
       _changeLineSpan,
     ];
   }
