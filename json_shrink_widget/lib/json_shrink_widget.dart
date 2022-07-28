@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:json_shrink_widget/src/inline_span_ext.dart';
+import 'package:json_shrink_widget/src/json_formatter.dart';
 import 'package:json_shrink_widget/src/json_span_style.dart';
 
 /// @date 26/7/22
@@ -34,6 +37,9 @@ class JsonShrinkWidget extends StatefulWidget {
 
   final ValueChanged<bool>? shrinkCallBack;
 
+  //替换收缩起来的Widget
+  final Widget Function(Map map)? shrinkWidgetBuilder;
+
   const JsonShrinkWidget({
     this.json,
     this.shrink,
@@ -44,6 +50,7 @@ class JsonShrinkWidget extends StatefulWidget {
     this.needAddSymbol = false,
     this.deepShrink = 99,
     this.shrinkCallBack,
+    this.shrinkWidgetBuilder,
     Key? key,
   }) : super(key: key);
 
@@ -136,6 +143,25 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
                 widget.shrinkCallBack?.call(_shrink);
               },
             ),
+            const SizedBox(width: 4),
+            GestureDetector(
+              child: const Icon(
+                Icons.content_copy_rounded,
+                color: Colors.grey,
+                size: 16,
+              ),
+              onTap: () => Clipboard.setData(ClipboardData(text: JsonFormatter.format(widget.json))),
+            ),
+            const SizedBox(width: 4),
+            if (kDebugMode)
+              GestureDetector(
+                onTap: () => debugPrint(JsonFormatter.format(widget.json)),
+                child: const Icon(
+                  Icons.print,
+                  color: Colors.grey,
+                  size: 16,
+                ),
+              ),
           ],
         ),
       ),
