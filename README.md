@@ -10,4 +10,4 @@ for data formatting and viewing after the project request is returned.
   ///just like this, to use the widget,support data like String,Map,and List
   JsonShrinkWidget(json: _controller.text);
 ```
-![Alt](pics/show.gif)
+![Alt](json_shrink_widget/pics/show.gif)
