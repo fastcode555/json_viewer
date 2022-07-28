@@ -51,6 +51,8 @@ class JsonShrinkWidget extends StatefulWidget {
   _JsonShrinkWidgetState createState() => _JsonShrinkWidgetState();
 }
 
+const _changeLineSpan = WidgetSpan(child: SizedBox(width: double.infinity));
+
 class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   bool _shrink = false;
   final List<InlineSpan> _spans = [];
@@ -76,8 +78,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(
+    return RichText(
+      text: TextSpan(
         children: _shrink ? _buildShrinkSpan() : _spans,
       ),
     );
@@ -112,7 +114,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
               widget.shrinkCallBack?.call(_shrink);
             }),
       if (endTextSpan?.text?.trim() != "}") endSpan,
-      const WidgetSpan(child: SizedBox(width: double.infinity)),
+      _changeLineSpan,
     ];
   }
 
@@ -223,6 +225,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             needAddSymbol: i != keys.length - 1,
           ),
         ));
+        spans.add(_changeLineSpan);
         spans.add(const TextSpan(text: "\n"));
       }
       if (needAddSymbol) {
@@ -291,6 +294,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             needAddSymbol: i != data.length - 1,
           ),
         ));
+        spans.add(_changeLineSpan);
+        spans.add(const TextSpan(text: "\n"));
       }
       if (needAddSymbol) {
         if (i != data.length - 1) {

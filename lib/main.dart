@@ -63,8 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: const InputDecoration(labelText: "Please input the json text!"),
                 ),
               ),
-              TextButton(onPressed: () {}, child: const Text("Clear")),
-              TextButton(onPressed: () {}, child: const Text("Format")),
+              TextButton(onPressed: () => _controller.clear(), child: const Text("Clear")),
+              TextButton(onPressed: () => setState(() {}), child: const Text("Format")),
             ],
           ),
           Expanded(
