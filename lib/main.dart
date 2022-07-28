@@ -54,7 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: JsonShrinkWidget(json: _controller.text),
+              child: JsonShrinkWidget(
+                json: _controller.text,
+                style: const JsonShrinkStyle.light(),
+              ),
             ),
           ),
         ],

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:json_shrink_widget/src/inline_span_ext.dart';
 import 'package:json_shrink_widget/src/json_formatter.dart';
-import 'package:json_shrink_widget/src/json_span_style.dart';
+import 'package:json_shrink_widget/src/json_shrink_style.dart';
 
 /// @date 26/7/22
 /// describe: 支持json 收缩或者展开
@@ -24,7 +24,7 @@ class JsonShrinkWidget extends StatefulWidget {
   final String indentation;
 
   //需要格式化的样式风格
-  final JsonSpanStyle? style;
+  final JsonShrinkStyle? style;
 
   //作为子级，包含了key值
   final String jsonKey;
@@ -45,7 +45,7 @@ class JsonShrinkWidget extends StatefulWidget {
     this.shrink,
     this.deep = 0,
     this.indentation = " ",
-    this.style = const JsonSpanStyle.light(),
+    this.style = const JsonShrinkStyle(),
     this.jsonKey = "",
     this.needAddSymbol = false,
     this.deepShrink = 99,
@@ -208,7 +208,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   ///解析Map
   List<InlineSpan> _parseMap(
     Map data, {
-    JsonSpanStyle? style,
+    JsonShrinkStyle? style,
     int deep = 0,
     String indentation = " ",
     String key = "",
@@ -269,7 +269,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   ///解析列表
   List<InlineSpan> _parseList(
     List<dynamic> data, {
-    JsonSpanStyle? style,
+    JsonShrinkStyle? style,
     int deep = 0,
     String indentation = " ",
     String key = "",
