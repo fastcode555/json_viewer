@@ -75,6 +75,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       _shrink = widget.shrink ?? widget.deep >= widget.deepShrink;
     }
     if (oldWidget.json != widget.json) {
+      _spans.clear();
       _parseSpans(widget.json);
     }
   }
@@ -102,14 +103,12 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     }
 
     String? text = startTextSpan?.text?.trim();
-    String startSymbol =
-        text == "{" || text == "[" ? "" : (_isList ? "[" : "{");
+    String startSymbol = text == "{" || text == "[" ? "" : (_isList ? "[" : "{");
     String endSymbol = _isList ? "]" : "}";
     return [
       startSpan,
       TextSpan(
-          text:
-              '${widget.jsonKey.isNotEmpty ? ":" : ""}$startSymbol...$endSymbol',
+          text: '${widget.jsonKey.isNotEmpty ? ":" : ""}$startSymbol...$endSymbol',
           style: widget.style?.symbolStyle,
           recognizer: TapGestureRecognizer()
             ..onTap = () {
@@ -118,8 +117,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
               });
               widget.shrinkCallBack?.call(_shrink);
             }),
-      if (endTextSpan?.text?.trim() != "}" && endTextSpan?.text?.trim() != "]")
-        endSpan,
+      if (endTextSpan?.text?.trim() != "}" && endTextSpan?.text?.trim() != "]") endSpan,
       _changeLineSpan,
     ];
   }
@@ -149,8 +147,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
                 color: Colors.grey,
                 size: 16,
               ),
-              onTap: () => Clipboard.setData(
-                  ClipboardData(text: JsonFormatter.format(widget.json))),
+              onTap: () => Clipboard.setData(ClipboardData(text: JsonFormatter.format(widget.json))),
             ),
             const SizedBox(width: 4),
             if (kDebugMode)
@@ -200,8 +197,12 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
         _spans.add(TextSpan(text: ",", style: widget.style?.symbolStyle));
       }
     } else if (data is String) {
-      dynamic json = jsonDecode(data);
-      _parseSpans(json);
+      try {
+        dynamic json = jsonDecode(data);
+        _parseSpans(json);
+      } catch (e) {
+        print(e);
+      }
     }
   }
 

@@ -150,7 +150,7 @@ packages:
       path: json_shrink_widget
       relative: true
     source: path
-    version: "1.0.0+1"
+    version: "1.0.7"
   lints:
     dependency: transitive
     description:
