@@ -102,12 +102,14 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     }
 
     String? text = startTextSpan?.text?.trim();
-    String startSymbol = text == "{" || text == "[" ? "" : (_isList ? "[" : "{");
+    String startSymbol =
+        text == "{" || text == "[" ? "" : (_isList ? "[" : "{");
     String endSymbol = _isList ? "]" : "}";
     return [
       startSpan,
       TextSpan(
-          text: '${widget.jsonKey.isNotEmpty ? ":" : ""}$startSymbol...$endSymbol',
+          text:
+              '${widget.jsonKey.isNotEmpty ? ":" : ""}$startSymbol...$endSymbol',
           style: widget.style?.symbolStyle,
           recognizer: TapGestureRecognizer()
             ..onTap = () {
@@ -116,7 +118,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
               });
               widget.shrinkCallBack?.call(_shrink);
             }),
-      if (endTextSpan?.text?.trim() != "}" && endTextSpan?.text?.trim() != "]") endSpan,
+      if (endTextSpan?.text?.trim() != "}" && endTextSpan?.text?.trim() != "]")
+        endSpan,
       _changeLineSpan,
     ];
   }
@@ -146,7 +149,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
                 color: Colors.grey,
                 size: 16,
               ),
-              onTap: () => Clipboard.setData(ClipboardData(text: JsonFormatter.format(widget.json))),
+              onTap: () => Clipboard.setData(
+                  ClipboardData(text: JsonFormatter.format(widget.json))),
             ),
             const SizedBox(width: 4),
             if (kDebugMode)

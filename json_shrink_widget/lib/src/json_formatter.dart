@@ -6,7 +6,6 @@ class JsonFormatter {
   //count：当前的层级
   //缩进符号：indentation
   //style：需要进行格式化的样式
-
   static String format(
     dynamic data, {
     int deep = 0,
@@ -58,9 +57,11 @@ class JsonFormatter {
       } else if (obj is num || obj is bool) {
         buffer.write('$space\"$key\":$obj');
       } else if (obj is Map) {
-        buffer.write(_parseMap(obj, count: count + 1, indentation: indentation, key: key));
+        buffer.write(_parseMap(obj,
+            count: count + 1, indentation: indentation, key: key));
       } else if (obj is List) {
-        buffer.write(_parseList(obj, deep: count + 1, indentation: indentation, key: key));
+        buffer.write(_parseList(obj,
+            deep: count + 1, indentation: indentation, key: key));
       }
       if (i != keys.length - 1) {
         buffer.write(",\n");
@@ -103,7 +104,8 @@ class JsonFormatter {
       } else if (obj is Map) {
         buffer.write(_parseMap(obj, count: deep + 1, indentation: indentation));
       } else if (obj is List) {
-        buffer.write(_parseList(obj, deep: deep + 1, indentation: indentation, key: key));
+        buffer.write(_parseList(obj,
+            deep: deep + 1, indentation: indentation, key: key));
       }
       if (i != data.length - 1) {
         buffer.write(",\n");

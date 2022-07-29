@@ -24,23 +24,35 @@ class JsonShrinkStyle {
   //图片的大小
   final Size size;
 
+  ///normal theme
   const JsonShrinkStyle({
-    this.symbolStyle = const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-    this.keyStyle = const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
-    this.numberStyle = const TextStyle(color: Colors.purpleAccent, fontWeight: FontWeight.bold),
+    this.symbolStyle =
+        const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+    this.keyStyle =
+        const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+    this.numberStyle = const TextStyle(
+        color: Colors.purpleAccent, fontWeight: FontWeight.bold),
     this.textStyle = const TextStyle(color: Colors.white),
-    this.urlStyle = const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-    this.boolStyle = const TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold),
+    this.urlStyle = const TextStyle(
+        color: Colors.blue, decoration: TextDecoration.underline),
+    this.boolStyle = const TextStyle(
+        color: Colors.yellowAccent, fontWeight: FontWeight.bold),
     this.size = const Size(50, 50),
   });
 
+  ///light theme
   const JsonShrinkStyle.light({
-    this.symbolStyle = const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-    this.keyStyle = const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
-    this.numberStyle = const TextStyle(color: Colors.purpleAccent, fontWeight: FontWeight.bold),
+    this.symbolStyle =
+        const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+    this.keyStyle =
+        const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+    this.numberStyle = const TextStyle(
+        color: Colors.purpleAccent, fontWeight: FontWeight.bold),
     this.textStyle = const TextStyle(color: Colors.black),
-    this.urlStyle = const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-    this.boolStyle = const TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold),
+    this.urlStyle = const TextStyle(
+        color: Colors.blue, decoration: TextDecoration.underline),
+    this.boolStyle = const TextStyle(
+        color: Colors.yellowAccent, fontWeight: FontWeight.bold),
     this.size = const Size(50, 50),
   });
 }
