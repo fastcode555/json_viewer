@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Extract the url span,user can custom the span,
+
 ## 1.0.7
 
 - According the suggestion add more document,

@@ -1,12 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:json_shrink_widget/src/json_shrink_style.dart';
 
 ///更新正则,已匹配转义后的链接
-final RegExp _regexUrl = RegExp(
-    r"(https?|ftp|file):(//|\\/\\/)[-A-Za-z0-9+&@#/\%?\\/=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"); //匹配url
+final RegExp _regexUrl =
+    RegExp(r"(https?|ftp|file):(//|\\/\\/)[-A-Za-z0-9+&@#/\%?\\/=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"); //匹配url
 
 bool isUrl(String content) => _regexUrl.hasMatch(content);
 
@@ -15,25 +14,40 @@ bool isImageUrl(String url) {
   String finalUrl = url.toLowerCase();
   return finalUrl.contains(".jpg") ||
       finalUrl.contains('.png') ||
-      finalUrl.contains(".jpeg");
+      finalUrl.contains(".jpeg") ||
+      finalUrl.contains(".webp");
 }
 
 /// An extendsion of List<InlineSpan>
 extension InlineSpanExt on List<InlineSpan> {
   void addString(
-      String key, String value, JsonShrinkStyle? style, String space) {
-    add(TextSpan(text: '$space"$key"', style: style?.keyStyle));
-    add(TextSpan(text: ':', style: style?.symbolStyle));
+    String key,
+    String value,
+    JsonShrinkStyle style,
+    String space, [
+    InlineSpan Function(String url, JsonShrinkStyle style)? urlSpanBuilder,
+  ]) {
+    add(TextSpan(text: '$space"$key"', style: style.keyStyle));
+    add(TextSpan(text: ':', style: style.symbolStyle));
     if (isUrl(value)) {
-      if (isImageUrl(value)) {
+      if (urlSpanBuilder != null) {
+        add(urlSpanBuilder.call(value, style));
+      } else {
+        add(
+          TextSpan(
+            text: '"$value"',
+            style: style.urlStyle,
+            recognizer: LongPressGestureRecognizer()..onLongPress = () => Clipboard.setData(ClipboardData(text: value)),
+          ),
+        );
+      }
+      /*if (isImageUrl(value)) {
         String imageUrl = value.replaceAll('\\/', '/');
         add(
           WidgetSpan(
             child: GestureDetector(
-              child: CachedNetworkImage(
-                  imageUrl: imageUrl, width: 30, height: 30, fit: BoxFit.cover),
-              onLongPress: () =>
-                  Clipboard.setData(ClipboardData(text: imageUrl)),
+              child: CachedNetworkImage(imageUrl: imageUrl, width: 30, height: 30, fit: BoxFit.cover),
+              onLongPress: () => Clipboard.setData(ClipboardData(text: imageUrl)),
             ),
           ),
         );
@@ -42,14 +56,12 @@ extension InlineSpanExt on List<InlineSpan> {
           TextSpan(
             text: '"$value"',
             style: style?.urlStyle,
-            recognizer: LongPressGestureRecognizer()
-              ..onLongPress =
-                  () => Clipboard.setData(ClipboardData(text: value)),
+            recognizer: LongPressGestureRecognizer()..onLongPress = () => Clipboard.setData(ClipboardData(text: value)),
           ),
         );
-      }
+      }*/
     } else {
-      add(TextSpan(text: '"$value"', style: style?.textStyle));
+      add(TextSpan(text: '"$value"', style: style.textStyle));
     }
   }
 

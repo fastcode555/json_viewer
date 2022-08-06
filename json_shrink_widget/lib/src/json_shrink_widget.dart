@@ -24,7 +24,7 @@ class JsonShrinkWidget extends StatefulWidget {
   final String indentation;
 
   //需要格式化的样式风格
-  final JsonShrinkStyle? style;
+  final JsonShrinkStyle style;
 
   //作为子级，包含了key值
   final String jsonKey;
@@ -37,6 +37,9 @@ class JsonShrinkWidget extends StatefulWidget {
 
   final ValueChanged<bool>? shrinkCallBack;
 
+  ///回调图片链接，方便用户定制化
+  final InlineSpan Function(String url, JsonShrinkStyle style)? urlSpanBuilder;
+
   const JsonShrinkWidget({
     this.json,
     this.shrink,
@@ -47,6 +50,7 @@ class JsonShrinkWidget extends StatefulWidget {
     this.needAddSymbol = false,
     this.deepShrink = 99,
     this.shrinkCallBack,
+    this.urlSpanBuilder,
     Key? key,
   }) : super(key: key);
 
@@ -109,7 +113,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       startSpan,
       TextSpan(
           text: '${widget.jsonKey.isNotEmpty ? ":" : ""}$startSymbol...$endSymbol',
-          style: widget.style?.symbolStyle,
+          style: widget.style.symbolStyle,
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               setState(() {
@@ -180,7 +184,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
         key: widget.jsonKey,
       ));
       if (widget.needAddSymbol) {
-        _spans.add(TextSpan(text: ",", style: widget.style?.symbolStyle));
+        _spans.add(TextSpan(text: ",", style: widget.style.symbolStyle));
       }
     } else if (data is Map) {
       //解析map
@@ -194,7 +198,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
         key: widget.jsonKey,
       ));
       if (widget.needAddSymbol) {
-        _spans.add(TextSpan(text: ",", style: widget.style?.symbolStyle));
+        _spans.add(TextSpan(text: ",", style: widget.style.symbolStyle));
       }
     } else if (data is String) {
       try {
@@ -209,7 +213,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   ///解析Map
   List<InlineSpan> _parseMap(
     Map data, {
-    JsonShrinkStyle? style,
+    required JsonShrinkStyle style,
     int deep = 0,
     String indentation = " ",
     String key = "",
@@ -218,10 +222,10 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     String space = indentation * (deep + 1);
     List<InlineSpan> spans = [];
     if (key.isNotEmpty) {
-      spans.add(TextSpan(text: "$symbolSpace\"$key\"", style: style?.keyStyle));
-      spans.add(TextSpan(text: ':{', style: style?.symbolStyle));
+      spans.add(TextSpan(text: "$symbolSpace\"$key\"", style: style.keyStyle));
+      spans.add(TextSpan(text: ':{', style: style.symbolStyle));
     } else {
-      spans.add(TextSpan(text: "$symbolSpace{", style: style?.symbolStyle));
+      spans.add(TextSpan(text: "$symbolSpace{", style: style.symbolStyle));
     }
     _addOperationPanel(spans);
     List<dynamic> keys = data.keys.toList();
@@ -230,11 +234,11 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       Object? obj = data[key];
       bool needAddSymbol = true;
       if (obj == null) {
-        spans.add(TextSpan(text: "$space\"$key\"", style: style?.keyStyle));
-        spans.add(TextSpan(text: ":", style: style?.symbolStyle));
-        spans.add(TextSpan(text: "$obj", style: style?.symbolStyle));
+        spans.add(TextSpan(text: "$space\"$key\"", style: style.keyStyle));
+        spans.add(TextSpan(text: ":", style: style.symbolStyle));
+        spans.add(TextSpan(text: "$obj", style: style.symbolStyle));
       } else if (obj is String) {
-        spans.addString(key, obj, style, space);
+        spans.addString(key, obj, style, space, widget.urlSpanBuilder);
       } else if (obj is num) {
         spans.addNum(key, obj, style, space);
       } else if (obj is bool) {
@@ -250,6 +254,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             jsonKey: key,
             deepShrink: widget.deepShrink,
             needAddSymbol: i != keys.length - 1,
+            urlSpanBuilder: widget.urlSpanBuilder,
           ),
         ));
         spans.add(_changeLineSpan);
@@ -257,20 +262,20 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       }
       if (needAddSymbol) {
         if (i != keys.length - 1) {
-          spans.add(TextSpan(text: ",\n", style: style?.symbolStyle));
+          spans.add(TextSpan(text: ",\n", style: style.symbolStyle));
         } else {
-          spans.add(TextSpan(text: "\n", style: style?.symbolStyle));
+          spans.add(TextSpan(text: "\n", style: style.symbolStyle));
         }
       }
     }
-    spans.add(TextSpan(text: "$symbolSpace}", style: style?.symbolStyle));
+    spans.add(TextSpan(text: "$symbolSpace}", style: style.symbolStyle));
     return spans;
   }
 
   ///解析列表
   List<InlineSpan> _parseList(
     List<dynamic> data, {
-    JsonShrinkStyle? style,
+    required JsonShrinkStyle style,
     int deep = 0,
     String indentation = " ",
     String key = "",
@@ -283,32 +288,49 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
         return [
           TextSpan(
             text: "$symbolSpace\"$key\"",
-            style: style?.keyStyle,
-            children: [TextSpan(text: ':[ ]', style: style?.symbolStyle)],
+            style: style.keyStyle,
+            children: [TextSpan(text: ':[ ]', style: style.symbolStyle)],
           )
         ];
       }
-      return [TextSpan(text: "$symbolSpace[ ]", style: style?.symbolStyle)];
+      return [TextSpan(text: "$symbolSpace[ ]", style: style.symbolStyle)];
     }
     //解析list
     if (key.isNotEmpty) {
-      spans.add(TextSpan(text: "$symbolSpace\"$key\"", style: style?.keyStyle));
-      spans.add(TextSpan(text: ':[', style: style?.symbolStyle));
+      spans.add(TextSpan(text: "$symbolSpace\"$key\"", style: style.keyStyle));
+      spans.add(TextSpan(text: ':[', style: style.symbolStyle));
     } else {
-      spans.add(TextSpan(text: "$symbolSpace[", style: style?.symbolStyle));
+      spans.add(TextSpan(text: "$symbolSpace[", style: style.symbolStyle));
     }
     _addOperationPanel(spans);
     for (int i = 0; i < data.length; i++) {
       Object? obj = data[i];
       bool needAddSymbol = true;
       if (obj == null) {
-        spans.add(TextSpan(text: "$space$obj", style: style?.numberStyle));
+        spans.add(TextSpan(text: "$space$obj", style: style.numberStyle));
       } else if (obj is num) {
-        spans.add(TextSpan(text: "$space$obj", style: style?.numberStyle));
+        spans.add(TextSpan(text: "$space$obj", style: style.numberStyle));
       } else if (obj is String) {
-        spans.add(TextSpan(text: '$space"$obj"', style: style?.textStyle));
+        if (isUrl(obj)) {
+          String value = obj;
+          spans.add(TextSpan(text: '$space', style: style.textStyle));
+          if (widget.urlSpanBuilder != null) {
+            spans.add(widget.urlSpanBuilder!(value, style));
+          } else {
+            spans.add(
+              TextSpan(
+                text: '"$value"',
+                style: style.urlStyle,
+                recognizer: LongPressGestureRecognizer()
+                  ..onLongPress = () => Clipboard.setData(ClipboardData(text: value)),
+              ),
+            );
+          }
+        } else {
+          spans.add(TextSpan(text: '$space"$obj"', style: style.textStyle));
+        }
       } else if (obj is bool) {
-        spans.add(TextSpan(text: "$space$obj", style: style?.boolStyle));
+        spans.add(TextSpan(text: "$space$obj", style: style.boolStyle));
       } else if (obj is Map || obj is List) {
         needAddSymbol = false;
         spans.add(WidgetSpan(
@@ -319,6 +341,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             style: style,
             deepShrink: widget.deepShrink,
             needAddSymbol: i != data.length - 1,
+            urlSpanBuilder: widget.urlSpanBuilder,
           ),
         ));
         spans.add(_changeLineSpan);
@@ -326,16 +349,16 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       }
       if (needAddSymbol) {
         if (i != data.length - 1) {
-          spans.add(TextSpan(text: ",\n", style: style?.symbolStyle));
+          spans.add(TextSpan(text: ",\n", style: style.symbolStyle));
         } else {
-          spans.add(TextSpan(text: "\n", style: style?.symbolStyle));
+          spans.add(TextSpan(text: "\n", style: style.symbolStyle));
         }
       }
     }
     if (spans[spans.length - 1] is WidgetSpan) {
-      spans.add(TextSpan(text: '\n$symbolSpace]', style: style?.symbolStyle));
+      spans.add(TextSpan(text: '\n$symbolSpace]', style: style.symbolStyle));
     } else {
-      spans.add(TextSpan(text: '$symbolSpace]', style: style?.symbolStyle));
+      spans.add(TextSpan(text: '$symbolSpace]', style: style.symbolStyle));
     }
     return spans;
   }

@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  extended_image:
   json_shrink_widget:
     path: json_shrink_widget
 
