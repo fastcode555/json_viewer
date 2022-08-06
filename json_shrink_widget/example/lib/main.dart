@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:json_shrink_widget/json_shrink_widget.dart';
 
@@ -57,11 +58,25 @@ class _MyHomePageState extends State<MyHomePage> {
               child: JsonShrinkWidget(
                 json: _controller.text,
                 style: const JsonShrinkStyle.light(),
+                urlSpanBuilder: (String url, JsonShrinkStyle style) {
+                  if (isImageUrl(url)) {
+                    return WidgetSpan(child: ExtendedImage.network(url, width: 30, height: 30, fit: BoxFit.cover));
+                  }
+                  return TextSpan(text: "\"$url\"", style: style.urlStyle);
+                },
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  bool isImageUrl(String url) {
+    String finalUrl = url.toLowerCase();
+    return finalUrl.contains(".jpg") ||
+        finalUrl.contains('.png') ||
+        finalUrl.contains(".jpeg") ||
+        finalUrl.contains(".webp");
   }
 }
