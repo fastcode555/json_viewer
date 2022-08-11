@@ -21,6 +21,8 @@ class JsonShrinkStyle {
   //超链接的颜色
   final TextStyle? urlStyle;
 
+  final TextStyle? indentationStyle;
+
   //图片的大小
   final Size size;
 
@@ -37,6 +39,7 @@ class JsonShrinkStyle {
         color: Colors.blue, decoration: TextDecoration.underline),
     this.boolStyle = const TextStyle(
         color: Colors.yellowAccent, fontWeight: FontWeight.bold),
+    this.indentationStyle = const TextStyle(color: Colors.transparent),
     this.size = const Size(50, 50),
   });
 
@@ -53,6 +56,7 @@ class JsonShrinkStyle {
         color: Colors.blue, decoration: TextDecoration.underline),
     this.boolStyle = const TextStyle(
         color: Colors.yellowAccent, fontWeight: FontWeight.bold),
+    this.indentationStyle = const TextStyle(color: Colors.transparent),
     this.size = const Size(50, 50),
   });
 }
