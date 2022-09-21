@@ -86,8 +86,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
+    return Text.rich(
+      TextSpan(
         children: _shrink ? _buildShrinkSpan() : _spans,
       ),
     );
@@ -106,20 +106,15 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       endTextSpan = endSpan;
     }
 
-    String? text =
-        startTextSpan?.text?. /*.replaceAll(widget.indentation, "")*/ trim();
-    String? endText =
-        endTextSpan?.text?. /*replaceAll(widget.indentation, "").*/ trim();
-    String startSymbol =
-        text == "{" || text == "[" ? "" : (_isList ? "[" : "{");
+    String? text = startTextSpan?.text?. /*.replaceAll(widget.indentation, "")*/ trim();
+    String? endText = endTextSpan?.text?. /*replaceAll(widget.indentation, "").*/ trim();
+    String startSymbol = text == "{" || text == "[" ? "" : (_isList ? "[" : "{");
     String endSymbol = _isList ? "]" : "}";
     return [
       startSpan,
-      if (widget.jsonKey.isNotEmpty)
-        TextSpan(text: '"${widget.jsonKey}"', style: widget.style.keyStyle),
+      if (widget.jsonKey.isNotEmpty) TextSpan(text: '"${widget.jsonKey}"', style: widget.style.keyStyle),
       TextSpan(
-          text:
-              '${widget.jsonKey.isNotEmpty ? ":" : ""}$startSymbol...$endSymbol',
+          text: '${widget.jsonKey.isNotEmpty ? ":" : ""}$startSymbol...$endSymbol',
           style: widget.style.symbolStyle,
           recognizer: TapGestureRecognizer()
             ..onTap = () {
@@ -158,8 +153,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
                 color: Colors.grey,
                 size: 16,
               ),
-              onTap: () => Clipboard.setData(
-                  ClipboardData(text: JsonFormatter.format(widget.json))),
+              onTap: () => Clipboard.setData(ClipboardData(text: JsonFormatter.format(widget.json))),
             ),
             const SizedBox(width: 4),
             if (kDebugMode)
@@ -226,10 +220,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     String indentation = " ",
     String key = "",
   }) {
-    final TextSpan symbolSpan =
-        TextSpan(text: indentation * deep, style: style.indentationStyle);
-    final TextSpan spaceSpan =
-        TextSpan(text: indentation * (deep + 1), style: style.indentationStyle);
+    final TextSpan symbolSpan = TextSpan(text: indentation * deep, style: style.indentationStyle);
+    final TextSpan spaceSpan = TextSpan(text: indentation * (deep + 1), style: style.indentationStyle);
     List<InlineSpan> spans = [];
     if (key.isNotEmpty) {
       spans.add(symbolSpan);
@@ -294,10 +286,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     String indentation = " ",
     String key = "",
   }) {
-    final TextSpan symbolSpan =
-        TextSpan(text: indentation * deep, style: style.indentationStyle);
-    final TextSpan spaceSpan =
-        TextSpan(text: indentation * (deep + 1), style: style.indentationStyle);
+    final TextSpan symbolSpan = TextSpan(text: indentation * deep, style: style.indentationStyle);
+    final TextSpan spaceSpan = TextSpan(text: indentation * (deep + 1), style: style.indentationStyle);
     List<InlineSpan> spans = [];
     if (data.isEmpty) {
       if (key.isNotEmpty) {
@@ -346,8 +336,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
                 text: '"$value"',
                 style: style.urlStyle,
                 recognizer: LongPressGestureRecognizer()
-                  ..onLongPress =
-                      () => Clipboard.setData(ClipboardData(text: value)),
+                  ..onLongPress = () => Clipboard.setData(ClipboardData(text: value)),
               ),
             );
           }
