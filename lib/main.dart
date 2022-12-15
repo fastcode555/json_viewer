@@ -55,15 +55,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: JsonShrinkWidget(
-                json: _controller.text,
-                style: const JsonShrinkStyle.light(),
-                urlSpanBuilder: (String url, JsonShrinkStyle style) {
-                  if (isImageUrl(url)) {
-                    return WidgetSpan(child: ExtendedImage.network(url, width: 30, height: 30, fit: BoxFit.cover));
-                  }
-                  return TextSpan(text: "\"$url\"", style: style.urlStyle);
-                },
+              child: SelectionArea(
+                child: JsonShrinkWidget(
+                  json: _controller.text,
+                  style: const JsonShrinkStyle.light(),
+                  urlSpanBuilder: (String url, JsonShrinkStyle style) {
+                    if (isImageUrl(url)) {
+                      return WidgetSpan(child: ExtendedImage.network(url, width: 30, height: 30, fit: BoxFit.cover));
+                    }
+                    return TextSpan(text: "\"$url\"", style: style.urlStyle);
+                  },
+                ),
               ),
             ),
           ),
