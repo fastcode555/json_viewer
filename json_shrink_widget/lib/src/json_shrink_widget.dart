@@ -58,8 +58,6 @@ class JsonShrinkWidget extends StatefulWidget {
   _JsonShrinkWidgetState createState() => _JsonShrinkWidgetState();
 }
 
-const _changeLineSpan = WidgetSpan(child: SizedBox(width: double.infinity));
-
 class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   bool _shrink = false;
   final List<InlineSpan> _spans = [];
@@ -87,9 +85,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   @override
   Widget build(BuildContext context) {
     return Text.rich(
-      TextSpan(
-        children: _shrink ? _buildShrinkSpan() : _spans,
-      ),
+      TextSpan(children: _shrink ? _buildShrinkSpan() : _spans),
+      textAlign: TextAlign.left,
     );
   }
 
@@ -106,8 +103,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       endTextSpan = endSpan;
     }
 
-    String? text = startTextSpan?.text?. /*.replaceAll(widget.indentation, "")*/ trim();
-    String? endText = endTextSpan?.text?. /*replaceAll(widget.indentation, "").*/ trim();
+    String? text = startTextSpan?.text?.trim();
+    String? endText = endTextSpan?.text?.trim();
     String startSymbol = text == "{" || text == "[" ? "" : (_isList ? "[" : "{");
     String endSymbol = _isList ? "]" : "}";
     return [
@@ -124,7 +121,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
               widget.shrinkCallBack?.call(_shrink);
             }),
       if (endText != "}" && endText != "]") endSpan,
-      _changeLineSpan,
+      //_changeLineSpan,
     ];
   }
 
@@ -262,7 +259,6 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             urlSpanBuilder: widget.urlSpanBuilder,
           ),
         ));
-        spans.add(_changeLineSpan);
         spans.add(const TextSpan(text: "\n"));
       }
       if (needAddSymbol) {
@@ -360,7 +356,6 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             urlSpanBuilder: widget.urlSpanBuilder,
           ),
         ));
-        spans.add(_changeLineSpan);
         spans.add(const TextSpan(text: "\n"));
       }
       if (needAddSymbol) {
