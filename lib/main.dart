@@ -1482,7 +1482,7 @@ const _json = '''
       }
     ]
   }
-}
+
 ''';
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -1515,9 +1515,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   json: _controller.text,
                   style: const JsonShrinkStyle.light(),
                   urlSpanBuilder: (String url, JsonShrinkStyle style) {
-                    /*if (isImageUrl(url)) {
-                      return WidgetSpan(child: ExtendedImage.network(url, width: 30, height: 30, fit: BoxFit.cover));
-                    }*/
                     return TextSpan(text: "\"url\"", style: style.urlStyle);
                   },
                 ),

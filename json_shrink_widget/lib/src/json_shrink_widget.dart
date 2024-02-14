@@ -63,6 +63,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   final List<InlineSpan> _spans = [];
   bool _isList = false;
 
+  bool _isError = false;
+
   @override
   void initState() {
     super.initState();
@@ -73,6 +75,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   @override
   void didUpdateWidget(covariant JsonShrinkWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _isError = false;
     if (oldWidget.shrink != widget.shrink) {
       _shrink = widget.shrink ?? widget.deep >= widget.deepShrink;
     }
@@ -84,6 +87,9 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isError) {
+      return Text(widget.json.toString());
+    }
     return Text.rich(
       TextSpan(children: _shrink ? _buildShrinkSpan() : _spans),
       textAlign: TextAlign.left,
@@ -171,6 +177,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
 
   ///解析出Span的功能
   void _parseSpans(dynamic data) {
+    _isError = false;
     //解析List
     if (data is List) {
       _isList = true;
@@ -205,6 +212,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
         _parseSpans(json);
       } catch (e) {
         print(e);
+        _isError = true;
       }
     }
   }
