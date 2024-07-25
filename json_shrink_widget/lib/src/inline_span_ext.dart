@@ -29,7 +29,7 @@ extension InlineSpanExt on List<InlineSpan> {
   ]) {
     add(space);
     add(TextSpan(text: '"$key"', style: style.keyStyle));
-    add(TextSpan(text: ':', style: style.symbolStyle));
+    add(TextSpan(text: ': ', style: style.symbolStyle));
     if (isUrl(value)) {
       if (urlSpanBuilder != null) {
         add(urlSpanBuilder.call(value, style));
@@ -72,7 +72,7 @@ extension InlineSpanExt on List<InlineSpan> {
   void addNum(String key, num value, JsonShrinkStyle? style, TextSpan space) {
     add(space);
     add(TextSpan(text: '"$key"', style: style?.keyStyle));
-    add(TextSpan(text: ':', style: style?.symbolStyle));
+    add(TextSpan(text: ': ', style: style?.symbolStyle));
     add(TextSpan(text: '$value', style: style?.numberStyle));
   }
 
@@ -80,7 +80,7 @@ extension InlineSpanExt on List<InlineSpan> {
   void addBool(String key, bool value, JsonShrinkStyle? style, TextSpan space) {
     add(space);
     add(TextSpan(text: '"$key"', style: style?.keyStyle));
-    add(TextSpan(text: ':', style: style?.symbolStyle));
+    add(TextSpan(text: ': ', style: style?.symbolStyle));
     add(TextSpan(text: '$value', style: style?.boolStyle));
   }
 }

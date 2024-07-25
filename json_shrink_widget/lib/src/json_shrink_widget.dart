@@ -111,13 +111,13 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
 
     String? text = startTextSpan?.text?.trim();
     String? endText = endTextSpan?.text?.trim();
-    String startSymbol = text == "{" || text == "[" ? "" : (_isList ? "[" : "{");
-    String endSymbol = _isList ? "]" : "}";
+    String startSymbol = text == '{' || text == '[' ? '' : (_isList ? '[' : '{');
+    String endSymbol = _isList ? ']' : '}';
     return [
       startSpan,
       if (widget.jsonKey.isNotEmpty) TextSpan(text: '"${widget.jsonKey}"', style: widget.style.keyStyle),
       TextSpan(
-          text: '${widget.jsonKey.isNotEmpty ? ":" : ""}$startSymbol...$endSymbol',
+          text: '${widget.jsonKey.isNotEmpty ? ': ' : ''}$startSymbol...$endSymbol',
           style: widget.style.symbolStyle,
           recognizer: TapGestureRecognizer()
             ..onTap = () {
@@ -126,7 +126,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
               });
               widget.shrinkCallBack?.call(_shrink);
             }),
-      if (endText != "}" && endText != "]") endSpan,
+      if (endText != '}' && endText != ']') endSpan,
       //_changeLineSpan,
     ];
   }
@@ -231,10 +231,10 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     if (key.isNotEmpty) {
       spans.add(symbolSpan);
       spans.add(TextSpan(text: "\"$key\"", style: style.keyStyle));
-      spans.add(TextSpan(text: ':{', style: style.symbolStyle));
+      spans.add(TextSpan(text: ': {', style: style.symbolStyle));
     } else {
       spans.add(symbolSpan);
-      spans.add(TextSpan(text: "{", style: style.symbolStyle));
+      spans.add(TextSpan(text: '{', style: style.symbolStyle));
     }
     _addOperationPanel(spans);
     List<dynamic> keys = data.keys.toList();
@@ -245,7 +245,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       if (obj == null) {
         spans.add(spaceSpan);
         spans.add(TextSpan(text: "\"$key\"", style: style.keyStyle));
-        spans.add(TextSpan(text: ":", style: style.symbolStyle));
+        spans.add(TextSpan(text: ': ', style: style.symbolStyle));
         spans.add(TextSpan(text: "$obj", style: style.symbolStyle));
       } else if (obj is String) {
         spans.addString(key, obj, style, spaceSpan, widget.urlSpanBuilder);
@@ -278,7 +278,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       }
     }
     spans.add(symbolSpan);
-    spans.add(TextSpan(text: "}", style: style.symbolStyle));
+    spans.add(TextSpan(text: '}', style: style.symbolStyle));
     return spans;
   }
 
@@ -300,7 +300,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
           TextSpan(
             text: "\"$key\"",
             style: style.keyStyle,
-            children: [TextSpan(text: ':[ ]', style: style.symbolStyle)],
+            children: [TextSpan(text: ': [ ]', style: style.symbolStyle)],
           )
         ];
       }
@@ -313,7 +313,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     if (key.isNotEmpty) {
       spans.add(symbolSpan);
       spans.add(TextSpan(text: "\"$key\"", style: style.keyStyle));
-      spans.add(TextSpan(text: ':[', style: style.symbolStyle));
+      spans.add(TextSpan(text: ': [', style: style.symbolStyle));
     } else {
       spans.add(symbolSpan);
       spans.add(TextSpan(text: "[", style: style.symbolStyle));
