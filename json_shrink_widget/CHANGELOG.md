@@ -1,4 +1,8 @@
-## 1.1.0
+## 1.1.6
+
+- fix the bugs,
+
+- ## 1.1.0
 
 - Extract the url span,user can custom the span,
 

@@ -88,7 +88,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   @override
   Widget build(BuildContext context) {
     if (_isError) {
-      return Text(widget.json.toString());
+      return Text(widget.json.toString(), style: widget.style.textStyle);
     }
     return Text.rich(
       TextSpan(children: _shrink ? _buildShrinkSpan() : _spans),
