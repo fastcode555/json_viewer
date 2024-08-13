@@ -28,35 +28,25 @@ class JsonShrinkStyle {
 
   ///normal theme
   const JsonShrinkStyle({
-    this.symbolStyle =
-        const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-    this.keyStyle =
-        const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
-    this.numberStyle = const TextStyle(
-        color: Colors.purpleAccent, fontWeight: FontWeight.bold),
-    this.textStyle = const TextStyle(color: Colors.white),
-    this.urlStyle = const TextStyle(
-        color: Colors.blue, decoration: TextDecoration.underline),
-    this.boolStyle = const TextStyle(
-        color: Colors.yellowAccent, fontWeight: FontWeight.bold),
-    this.indentationStyle = const TextStyle(color: Colors.transparent),
+    this.symbolStyle = const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 14),
+    this.keyStyle = const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 14),
+    this.numberStyle = const TextStyle(color: Colors.purpleAccent, fontWeight: FontWeight.bold, fontSize: 14),
+    this.textStyle = const TextStyle(color: Colors.white, fontSize: 14),
+    this.urlStyle = const TextStyle(color: Colors.blue, decoration: TextDecoration.underline, fontSize: 14),
+    this.boolStyle = const TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold, fontSize: 14),
+    this.indentationStyle = const TextStyle(color: Colors.transparent, fontSize: 14),
     this.size = const Size(50, 50),
   });
 
   ///light theme
   const JsonShrinkStyle.light({
-    this.symbolStyle =
-        const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-    this.keyStyle =
-        const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
-    this.numberStyle = const TextStyle(
-        color: Colors.purpleAccent, fontWeight: FontWeight.bold),
-    this.textStyle = const TextStyle(color: Colors.black),
-    this.urlStyle = const TextStyle(
-        color: Colors.blue, decoration: TextDecoration.underline),
-    this.boolStyle = const TextStyle(
-        color: Colors.yellowAccent, fontWeight: FontWeight.bold),
-    this.indentationStyle = const TextStyle(color: Colors.transparent),
+    this.symbolStyle = const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 14),
+    this.keyStyle = const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 14),
+    this.numberStyle = const TextStyle(color: Colors.purpleAccent, fontWeight: FontWeight.bold, fontSize: 14),
+    this.textStyle = const TextStyle(color: Colors.black, fontSize: 14),
+    this.urlStyle = const TextStyle(color: Colors.blue, decoration: TextDecoration.underline, fontSize: 14),
+    this.boolStyle = const TextStyle(color: Colors.yellowAccent, fontWeight: FontWeight.bold, fontSize: 14),
+    this.indentationStyle = const TextStyle(color: Colors.transparent, fontSize: 14),
     this.size = const Size(50, 50),
   });
 }
