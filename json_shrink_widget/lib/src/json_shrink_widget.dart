@@ -40,6 +40,9 @@ class JsonShrinkWidget extends StatefulWidget {
   ///回调图片链接，方便用户定制化
   final InlineSpan Function(String url, JsonShrinkStyle style)? urlSpanBuilder;
 
+  ///展示模型或者数组有多少个，方便直观的看到数据情况
+  final bool showNumber;
+
   const JsonShrinkWidget({
     this.json,
     this.shrink,
@@ -48,6 +51,7 @@ class JsonShrinkWidget extends StatefulWidget {
     this.style = const JsonShrinkStyle(),
     this.jsonKey = "",
     this.needAddSymbol = false,
+    this.showNumber = true,
     this.deepShrink = 99,
     this.shrinkCallBack,
     this.urlSpanBuilder,
@@ -62,6 +66,8 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   bool _shrink = false;
   final List<InlineSpan> _spans = [];
   bool _isList = false;
+
+  int _length = 0;
 
   bool _isError = false;
 
@@ -102,6 +108,10 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     InlineSpan endSpan = _spans[_spans.length - 1];
     TextSpan? startTextSpan;
     TextSpan? endTextSpan;
+    String _buildContent() {
+      return widget.showNumber ? '...$_length...' : '...';
+    }
+
     if (startSpan is TextSpan) {
       startTextSpan = startSpan;
     }
@@ -117,7 +127,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       startSpan,
       if (widget.jsonKey.isNotEmpty) TextSpan(text: '"${widget.jsonKey}"', style: widget.style.keyStyle),
       TextSpan(
-          text: '${widget.jsonKey.isNotEmpty ? ': ' : ''}$startSymbol...$endSymbol',
+          text: '${widget.jsonKey.isNotEmpty ? ': ' : ''}$startSymbol${_buildContent()}$endSymbol',
           style: widget.style.symbolStyle,
           recognizer: TapGestureRecognizer()
             ..onTap = () {
@@ -139,11 +149,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
-              child: const Icon(
-                Icons.remove_circle_outline,
-                color: Colors.grey,
-                size: 16,
-              ),
+              child: const Icon(Icons.remove_circle_outline, color: Colors.grey, size: 16),
               onTap: () {
                 setState(() => _shrink = true);
                 widget.shrinkCallBack?.call(_shrink);
@@ -151,22 +157,17 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             ),
             const SizedBox(width: 4),
             GestureDetector(
-              child: const Icon(
-                Icons.content_copy_rounded,
-                color: Colors.grey,
-                size: 16,
-              ),
+              child: const Icon(Icons.content_copy_rounded, color: Colors.grey, size: 16),
               onTap: () => Clipboard.setData(ClipboardData(text: JsonFormatter.format(widget.json))),
             ),
             const SizedBox(width: 4),
             if (kDebugMode)
               GestureDetector(
-                onTap: () => debugPrint(JsonFormatter.format(widget.json)),
-                child: const Icon(
-                  Icons.print,
-                  color: Colors.grey,
-                  size: 16,
-                ),
+                onTap: () {
+                  debugPrint(JsonFormatter.format(widget.json));
+                  debugPrint("${jsonEncode(widget.json)}\n");
+                },
+                child: const Icon(Icons.print, color: Colors.grey, size: 16),
               ),
           ],
         ),
@@ -181,6 +182,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     //解析List
     if (data is List) {
       _isList = true;
+      _length = data.length;
       if (data.isEmpty) _shrink = false;
       _spans.addAll(_parseList(
         data,
@@ -195,6 +197,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     } else if (data is Map) {
       //解析map
       _isList = false;
+      _length = data.length;
       if (data.isEmpty) _shrink = false;
       _spans.addAll(_parseMap(
         data,
@@ -235,6 +238,9 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
     } else {
       spans.add(symbolSpan);
       spans.add(TextSpan(text: '{', style: style.symbolStyle));
+    }
+    if (data.isNotEmpty && widget.showNumber) {
+      spans.add(TextSpan(text: " $_length ", style: style.symbolStyle));
     }
     _addOperationPanel(spans);
     List<dynamic> keys = data.keys.toList();
@@ -318,6 +324,9 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
       spans.add(symbolSpan);
       spans.add(TextSpan(text: "[", style: style.symbolStyle));
     }
+    if (data.isNotEmpty && widget.showNumber) {
+      spans.add(TextSpan(text: " $_length ", style: style.symbolStyle));
+    }
     _addOperationPanel(spans);
     for (int i = 0; i < data.length; i++) {
       Object? obj = data[i];
@@ -362,6 +371,7 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
             deepShrink: widget.deepShrink,
             needAddSymbol: i != data.length - 1,
             urlSpanBuilder: widget.urlSpanBuilder,
+            showNumber: widget.showNumber,
           ),
         ));
         spans.add(const TextSpan(text: "\n"));

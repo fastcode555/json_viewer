@@ -1,3 +1,7 @@
+## 1.1.9
+
+- Add a number to the array or model to indicate the number of models or arrays
+
 ## 1.1.6
 
 - fix the bugs,
