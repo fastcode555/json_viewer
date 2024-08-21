@@ -81,7 +81,7 @@ packages:
       path: json_shrink_widget
       relative: true
     source: path
-    version: "1.1.5"
+    version: "1.1.8"
   leak_tracker:
     dependency: transitive
     description:
