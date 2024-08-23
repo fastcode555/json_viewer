@@ -1,3 +1,7 @@
+## 1.2.0
+
+- Add text without scaling feature
+
 ## 1.1.9
 
 - Add a number to the array or model to indicate the number of models or arrays

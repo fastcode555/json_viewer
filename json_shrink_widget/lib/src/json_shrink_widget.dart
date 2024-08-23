@@ -94,11 +94,12 @@ class _JsonShrinkWidgetState extends State<JsonShrinkWidget> {
   @override
   Widget build(BuildContext context) {
     if (_isError) {
-      return Text(widget.json.toString(), style: widget.style.textStyle);
+      return Text(widget.json.toString(), style: widget.style.textStyle, textScaler: TextScaler.noScaling);
     }
     return Text.rich(
       TextSpan(children: _shrink ? _buildShrinkSpan() : _spans),
       textAlign: TextAlign.left,
+      textScaler: TextScaler.noScaling,
     );
   }
 
