@@ -6,7 +6,7 @@ English| [简体中文](guide_cn.md) | [Deutsch](guide_de.md) | [Português](gui
 
 JSON Viewer is a Flutter widget for formatting and displaying JSON data, with support for expanding and collapsing JSON nodes. It is primarily used for viewing API response data in applications.
 
-![Alt](json_shrink_widget/pics/show.gif)
+![Alt](pics/show.gif)
 
 ## Installation
 

@@ -6,7 +6,7 @@
 
 JSON Viewer는 JSON 데이터를 포맷팅하고 표시하는 Flutter 위젯으로, JSON 노드의 확장 및 축소를 지원합니다. 주로 애플리케이션에서 API 응답 데이터를 표시하는 데 사용됩니다.
 
-![데모](json_shrink_widget/pics/show.gif)
+![데모](pics/show.gif)
 
 ## 설치
 

@@ -6,7 +6,7 @@
 
 JSON Viewerは、JSONデータをフォーマットして表示するFlutterウィジェットで、JSONノードの展開と折りたたみをサポートしています。主にアプリケーションでAPIレスポンスデータを表示するために使用されます。
 
-![デモ](json_shrink_widget/pics/show.gif)
+![デモ](pics/show.gif)
 
 
 ## インストール

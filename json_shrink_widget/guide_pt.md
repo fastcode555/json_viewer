@@ -6,7 +6,7 @@
 
 JSON Viewer é um widget Flutter para formatar e exibir dados JSON, com suporte para expandir e recolher nós JSON. É principalmente usado para visualizar dados de resposta de API em aplicativos.
 
-![Demo](json_shrink_widget/pics/show.gif)
+![Demo](pics/show.gif)
 
 ## Instalação
 
